@@ -1,0 +1,60 @@
+body {
+font-family: Arial, sans-serif;
+background-color: #f2f2f2;
+margin: 0;
+}
+
+#Heading
+{
+    text-align: center;
+    text-shadow: #555;
+    font-size: 50px;
+    color:brown
+}
+
+header {
+background-color: #333;
+color: white;
+padding: 15px;
+text-align: center;
+}
+
+
+nav a {
+color: white;
+margin: 10px;
+text-decoration: none;
+}
+
+
+nav a:hover {
+background-color: #555;
+padding: 5px;
+}
+
+
+section {
+padding: 20px;
+}
+
+
+.gallery img {
+width: 350px;
+height: 300px;
+margin: 50px;
+border: #f2f2f2;
+align-items: center;
+}
+
+
+input, textarea {
+padding: 5px;
+}
+
+
+@media screen and (max-width: 600px) {
+.gallery img {
+width: 100%;
+height: auto;
+}
+}
