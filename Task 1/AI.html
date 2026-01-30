@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>One — Advanced Art Gallery</title>
+  <meta name="description" content="Interactive, accessible art gallery — filtering, search, lightbox, favorites (localStorage), keyboard support." />
+  <link rel="stylesheet" href="one.css">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <div class="container">
+    <header class="header" role="banner">
+      <div class="brand">
+        <div class="logo">AG</div>
+        <div>
+          <div class="title">Advanced Art Gallery</div>
+          <div class="meta">Responsive • Accessible • Offline-friendly</div>
+        </div>
+      </div>
+
+      <div class="controls" role="search" aria-label="Gallery controls">
+        <div class="search" aria-hidden="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input id="q" aria-label="Search artworks" placeholder="Search title or tag..."/>
+        </div>
+
+        <div class="pills" role="toolbar" aria-label="Filter artworks">
+          <button class="pill" data-filter="*" aria-pressed="true">All</button>
+          <button class="pill" data-filter="abstract">Abstract</button>
+          <button class="pill" data-filter="portrait">Portrait</button>
+          <button class="pill" data-filter="landscape">Landscape</button>
+        </div>
+
+        <div class="sort">
+          <label class="visually-hidden" for="sort">Sort</label>
+          <select id="sort" class="select" aria-label="Sort artworks">
+            <option value="default">Featured</option>
+            <option value="title-asc">Title A→Z</option>
+            <option value="title-desc">Title Z→A</option>
+            <option value="date-desc">Newest</option>
+            <option value="date-asc">Oldest</option>
+          </select>
+        </div>
+
+        <button id="theme" class="btn" title="Toggle color theme">Theme</button>
+        <button id="open-favs" class="btn primary" aria-haspopup="dialog" aria-controls="favs">Favorites <span id="fav-count" class="fav-count">0</span></button>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="grid-header">
+        <div>
+          <h2 style="margin:0">Gallery</h2>
+          <div class="meta">Explore curated artworks — click any image to open the lightbox</div>
+        </div>
+
+        <div class="kv">
+          <div class="small">Showing <strong id="visible-count">0</strong> of <strong id="total-count">0</strong></div>
+        </div>
+      </div>
+
+      <section id="gallery" class="gallery" aria-live="polite">
+        <!-- Gallery items (data-driven) -->
+        <!-- Using existing images from the project; each card has data attributes for filtering & sorting -->
+
+        <article class="card fade-in" tabindex="0" role="article" data-title="Whispering Color" data-category="abstract" data-date="2026-01-10">
+          <div style="position:relative">
+            <img class="thumb" data-src="../Images/art1.webp" loading="lazy" alt="Abstract colorful composition"/>
+            <div class="overlay"><div class="quick">View</div></div>
+          </div>
+          <div class="card-body">
+            <div class="info">
+              <h3 class="h5">Whispering Color</h3>
+              <div class="sub">Abstract • 1200×900 • Oil on canvas</div>
+              <div class="badges"><div class="badge">Abstract</div><div class="badge">Featured</div></div>
+            </div>
+            <div class="card-actions">
+              <button class="icon-btn fav" aria-label="Add to favorites" title="Favorite" aria-pressed="false">♡</button>
+              <button class="icon-btn view" aria-label="Open image" title="Open">🔍</button>
+              <button class="icon-btn" data-action="download" aria-label="Download image" title="Download">⬇️</button>
+            </div>
+          </div>
+          <div class="card-footer"><div class="small">Jan 10, 2026</div><div class="small">by Musa</div></div>
+        </article>
+
+        <article class="card fade-in" tabindex="0" role="article" data-title="Quiet Portrait" data-category="portrait" data-date="2025-11-02">
+          <div style="position:relative">
+            <img class="thumb" data-src="../Images/art2.jpg" loading="lazy" alt="Portrait painting of a woman"/>
+            <div class="overlay"><div class="quick">View</div></div>
+          </div>
+          <div class="card-body">
+            <div class="info">
+              <h3 class="h5">Quiet Portrait</h3>
+              <div class="sub">Portrait • 800×1200 • Mixed media</div>
+              <div class="badges"><div class="badge">Portrait</div></div>
+            </div>
+            <div class="card-actions">
+              <button class="icon-btn fav" aria-label="Add to favorites" title="Favorite" aria-pressed="false">♡</button>
+              <button class="icon-btn view" aria-label="Open image" title="Open">🔍</button>
+              <button class="icon-btn" data-action="download" aria-label="Download image" title="Download">⬇️</button>
+            </div>
+          </div>
+          <div class="card-footer"><div class="small">Nov 2, 2025</div><div class="small">by A. Khan</div></div>
+        </article>
+
+        <article class="card fade-in" tabindex="0" role="article" data-title="Blue Horizon" data-category="landscape" data-date="2024-07-18">
+          <div style="position:relative">
+            <img class="thumb" data-src="../Images/art3.jpg" loading="lazy" alt="Landscape with blue tones"/>
+            <div class="overlay"><div class="quick">View</div></div>
+          </div>
+          <div class="card-body">
+            <div class="info">
+              <h3 class="h5">Blue Horizon</h3>
+              <div class="sub">Landscape • 1600×900 • Digital</div>
+              <div class="badges"><div class="badge">Landscape</div></div>
+            </div>
+            <div class="card-actions">
+              <button class="icon-btn fav" aria-label="Add to favorites" title="Favorite" aria-pressed="false">♡</button>
+              <button class="icon-btn view" aria-label="Open image" title="Open">🔍</button>
+              <button class="icon-btn" data-action="download" aria-label="Download image" title="Download">⬇️</button>
+            </div>
+          </div>
+          <div class="card-footer"><div class="small">Jul 18, 2024</div><div class="small">by Studio</div></div>
+        </article>
+
+        <!-- Additional virtual items to demonstrate layout (re-using images with different metadata) -->
+        <article class="card fade-in" tabindex="0" role="article" data-title="Color Echo" data-category="abstract" data-date="2025-03-12">
+          <div style="position:relative"><img class="thumb" data-src="../Images/art1.webp" loading="lazy" alt="Abstract color echo"/></div>
+          <div class="card-body"><div class="info"><h3 class="h5">Color Echo</h3><div class="sub">Abstract • experimental</div><div class="badges"><div class="badge">Abstract</div></div></div>
+            <div class="card-actions"><button class="icon-btn fav">♡</button><button class="icon-btn view">🔍</button><button class="icon-btn" data-action="download">⬇️</button></div></div>
+          <div class="card-footer"><div class="small">Mar 12, 2025</div><div class="small">by Guest</div></div>
+        </article>
+
+      </section>
+
+      <div class="note">Tip: use <kbd>←</kbd> <kbd>→</kbd> to navigate, <kbd>Esc</kbd> to close the lightbox, and the search/filter controls above to narrow results.</div>
+
+      <section style="margin-top:28px;display:grid;grid-template-columns:1fr 360px;gap:18px">
+        <div class="modal" aria-labelledby="feedback-title">
+          <h3 id="feedback-title">Feedback</h3>
+          <p class="sub">Send quick feedback — validated and stored locally (no server).</p>
+          <form id="feedback-form">
+            <label class="visually-hidden" for="fb-name">Name</label>
+            <input id="fb-name" class="input" placeholder="Your name (optional)" />
+            <label class="visually-hidden" for="fb-msg">Message</label>
+            <textarea id="fb-msg" placeholder="What did you think?" required></textarea>
+            <div class="btn-row">
+              <button type="submit" class="lb-btn">Send</button>
+            </div>
+            <div id="fb-status" class="small" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <aside class="drawer" id="favs" role="dialog" aria-modal="false" aria-labelledby="fav-title" aria-hidden="true">
+          <h4 id="fav-title">Favorites</h4>
+          <div class="fav-list" id="fav-list">
+            <div class="empty">No favorites yet — click the ♡ on any artwork.</div>
+          </div>
+          <div class="footer-note">
+            <button id="export-favs" class="btn">Export</button>
+            <button id="clear-favs" class="btn">Clear</button>
+          </div>
+        </aside>
+      </section>
+
+      <footer style="margin-top:32px;text-align:center;color:var(--muted);font-size:13px">
+        © 2026 Advanced Art Gallery — Built for coursework • Keyboard & screen-reader friendly
+      </footer>
+    </main>
+  </div>
+
+  <!-- LIGHTBOX (single element for all items) -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true" aria-label="Image viewer">
+    <div class="lightbox-inner" role="document">
+      <div class="lb-media" id="lb-media">
+        <div class="lb-nav" aria-hidden="true">
+          <button id="prev">◀</button>
+          <button id="next">▶</button>
+        </div>
+        <button class="close-x" id="lb-close" aria-label="Close viewer">✕</button>
+        <img id="lb-img" alt=""/>
+      </div>
+      <div class="lb-side">
+        <div>
+          <div class="lb-title" id="lb-title">Title</div>
+          <div class="lb-desc" id="lb-desc">Description</div>
+          <div style="margin-top:12px" id="lb-meta" class="small">Meta</div>
+        </div>
+        <div style="margin-top:auto;display:flex;gap:10px;align-items:center;justify-content:flex-end">
+          <button id="share" class="lb-btn">Share</button>
+          <button id="download" class="btn">Download</button>
+          <button id="fullscreen" class="btn">Fullscreen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Lightweight gallery controller — no external libs
+  (function(){
+    const gallery = document.getElementById('gallery');
+    const items = Array.from(gallery.querySelectorAll('.card'));
+    const q = document.getElementById('q');
+    const pills = Array.from(document.querySelectorAll('.pill'));
+    const sortEl = document.getElementById('sort');
+    const visibleCount = document.getElementById('visible-count');
+    const totalCount = document.getElementById('total-count');
+    const favCount = document.getElementById('fav-count');
+    const favListEl = document.getElementById('fav-list');
+    const openFavs = document.getElementById('open-favs');
+    const favDrawer = document.getElementById('favs');
+
+    // Lightbox
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbTitle = document.getElementById('lb-title');
+    const lbDesc = document.getElementById('lb-desc');
+    const lbMeta = document.getElementById('lb-meta');
+    let currentIndex = 0;
+
+    // Theme
+    const themeBtn = document.getElementById('theme');
+    const storedTheme = localStorage.getItem('gallery-theme');
+    if(storedTheme==='light') document.documentElement.style.colorScheme = 'light';
+    themeBtn.addEventListener('click', ()=>{
+      const cs = getComputedStyle(document.documentElement).colorScheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.style.colorScheme = cs;
+      localStorage.setItem('gallery-theme', cs);
+    });
+
+    // Lazy reveal using IntersectionObserver
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const img = e.target.querySelector('.thumb');
+          if(img && img.dataset.src){ img.src = img.dataset.src; img.removeAttribute('data-src'); }
+          e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        }
+      });
+    },{rootMargin:'200px'});
+    items.forEach(i=>io.observe(i));
+
+    // Update counters
+    function updateCounts(filtered){
+      totalCount.textContent = items.length;
+      visibleCount.textContent = filtered.length;
+    }
+
+    // FILTER + SEARCH + SORT
+    function applyFilters(){
+      const term = q.value.trim().toLowerCase();
+      const active = pills.find(p=>p.getAttribute('aria-pressed')==='true')?.dataset.filter || '*';
+      const sortVal = sortEl.value;
+
+      let filtered = items.filter(it=>{
+        const title = it.dataset.title.toLowerCase();
+        const cat = it.dataset.category.toLowerCase();
+        const matchesFilter = active==='*' ? true : cat===active;
+        const matchesSearch = !term || title.includes(term) || (it.dataset.category||'').includes(term);
+        return matchesFilter && matchesSearch;
+      });
+
+      // Sorting
+      filtered.sort((a,b)=>{
+        if(sortVal==='title-asc') return a.dataset.title.localeCompare(b.dataset.title);
+        if(sortVal==='title-desc') return b.dataset.title.localeCompare(a.dataset.title);
+        if(sortVal==='date-asc') return new Date(a.dataset.date) - new Date(b.dataset.date);
+        if(sortVal==='date-desc') return new Date(b.dataset.date) - new Date(a.dataset.date);
+        return 0;
+      });
+
+      // Render order & visibility
+      items.forEach(it=>{
+        if(filtered.includes(it)){
+          it.style.display = '';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+      // move filtered items in order
+      filtered.forEach(node=>gallery.appendChild(node));
+      updateCounts(filtered);
+    }
+
+    // Debounced search
+    let tid;
+    q.addEventListener('input', ()=>{ clearTimeout(tid); tid = setTimeout(applyFilters, 180); });
+    sortEl.addEventListener('change', applyFilters);
+    pills.forEach(p=>p.addEventListener('click', ()=>{
+      pills.forEach(x=>x.setAttribute('aria-pressed','false'));
+      p.setAttribute('aria-pressed','true');
+      applyFilters();
+    }));
+
+    // Lightbox open
+    function openLightbox(idx){
+      const node = items[idx];
+      const img = node.querySelector('.thumb');
+      lbImg.src = img.src || img.dataset.src;
+      lbImg.alt = img.alt || node.dataset.title;
+      lbTitle.textContent = node.dataset.title;
+      lbDesc.textContent = node.querySelector('.sub')?.textContent || '';
+      lbMeta.textContent = `Category: ${node.dataset.category} • Date: ${node.dataset.date}`;
+      lb.setAttribute('open',''); lb.setAttribute('aria-hidden','false');
+      currentIndex = idx; lbImg.focus?.();
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close LB
+    function closeLightbox(){ lb.removeAttribute('open'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+
+    // Attach view buttons
+    gallery.addEventListener('click', (e)=>{
+      const card = e.target.closest('.card');
+      if(!card) return;
+      if(e.target.closest('.view') || e.target.closest('.overlay')){
+        openLightbox(items.indexOf(card));
+        return;
+      }
+      if(e.target.closest('.fav')){ toggleFav(card); return; }
+      if(e.target.closest('[data-action="download"]')){ downloadImg(card); return; }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (ev)=>{
+      if(lb.hasAttribute('open')){
+        if(ev.key==='Escape') closeLightbox();
+        if(ev.key==='ArrowRight') showNext();
+        if(ev.key==='ArrowLeft') showPrev();
+      }
+      if(ev.key==='f' && document.activeElement.tagName!=='INPUT' && document.activeElement.tagName!=='TEXTAREA'){
+        // focus search
+        q.focus(); ev.preventDefault();
+      }
+    });
+
+    document.getElementById('next').addEventListener('click', showNext);
+    document.getElementById('prev').addEventListener('click', showPrev);
+    document.getElementById('lb-close').addEventListener('click', closeLightbox);
+
+    function showNext(){ currentIndex = (currentIndex+1) % items.length; openLightbox(currentIndex); }
+    function showPrev(){ currentIndex = (currentIndex-1 + items.length) % items.length; openLightbox(currentIndex); }
+
+    // Favorites (localStorage)
+    const FKEY = 'gallery:favorites:v1';
+    function readFavs(){ try{return JSON.parse(localStorage.getItem(FKEY) || '[]') }catch(e){return []} }
+    function writeFavs(v){ localStorage.setItem(FKEY, JSON.stringify(v)); }
+    function toggleFav(card){ const id = card.dataset.title; let list = readFavs(); const exists = list.find(x=>x.title===id);
+      if(exists){ list = list.filter(x=>x.title!==id); card.querySelector('.fav').setAttribute('aria-pressed','false'); }
+      else{ list.push({title: id, src: card.querySelector('.thumb').src || card.querySelector('.thumb').dataset.src, category: card.dataset.category}); card.querySelector('.fav').setAttribute('aria-pressed','true'); }
+      writeFavs(list); renderFavs();
+    }
+    function renderFavs(){ const list = readFavs(); favCount.textContent = list.length; favListEl.innerHTML = '';
+      if(!list.length){ favListEl.innerHTML = '<div class="empty">No favorites yet — click the ♡ on any artwork.</div>'; return }
+      list.forEach(it=>{
+        const el = document.createElement('div'); el.className='fav-item'; el.innerHTML = `<img src="${it.src}" alt="${it.title}"/><div style=\"flex:1\">${it.title}<div class=\"small\">${it.category}</div></div><button class=\"btn\" data-title=\"${it.title}\">Open</button>`;
+        el.querySelector('button').addEventListener('click', ()=>{ const idx = items.findIndex(x=>x.dataset.title===it.title); if(idx>-1) openLightbox(idx); });
+        favListEl.appendChild(el);
+      });
+    }
+    document.getElementById('export-favs').addEventListener('click', ()=>{
+      const data = JSON.stringify(readFavs(), null, 2);
+      const blob = new Blob([data],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'favorites.json'; a.click(); URL.revokeObjectURL(url);
+    });
+    document.getElementById('clear-favs').addEventListener('click', ()=>{ writeFavs([]); renderFavs(); document.querySelectorAll('.fav').forEach(b=>b.setAttribute('aria-pressed','false')); });
+
+    openFavs.addEventListener('click', ()=>{
+      const hidden = favDrawer.getAttribute('aria-hidden') === 'true';
+      favDrawer.setAttribute('aria-hidden', String(!hidden));
+      favDrawer.style.display = hidden ? 'block' : 'none';
+      renderFavs();
+    });
+
+    // Feedback form — validated and stored locally
+    const fbForm = document.getElementById('feedback-form');
+    fbForm.addEventListener('submit', (ev)=>{
+      ev.preventDefault();
+      const msg = document.getElementById('fb-msg').value.trim();
+      if(!msg) return document.getElementById('fb-status').textContent = 'Please enter a message.';
+      const store = JSON.parse(localStorage.getItem('gallery:feedback')||'[]');
+      store.unshift({at:new Date().toISOString(), name:document.getElementById('fb-name').value, msg});
+      localStorage.setItem('gallery:feedback', JSON.stringify(store));
+      document.getElementById('fb-status').textContent = 'Thanks — feedback saved locally.';
+      fbForm.reset();
+      setTimeout(()=>document.getElementById('fb-status').textContent = '', 2500);
+    });
+
+    // Download image
+    function downloadImg(card){ const src = card.querySelector('.thumb').src || card.querySelector('.thumb').dataset.src; const a = document.createElement('a'); a.href = src; a.download = card.dataset.title.replace(/\s+/g,'-')+'.jpg'; a.click(); }
+    document.getElementById('download').addEventListener('click', ()=>{
+      const node = items[currentIndex]; if(!node) return; downloadImg(node);
+    });
+    document.getElementById('share').addEventListener('click', async ()=>{
+      try{
+        await navigator.share?.({title: lbTitle.textContent, text: lbDesc.textContent, url: location.href});
+      }catch(e){ alert('Sharing is not available in this browser.'); }
+    });
+    document.getElementById('fullscreen').addEventListener('click', ()=>{
+      const el = document.getElementById('lb-media'); if(!document.fullscreenElement) el.requestFullscreen?.(); else document.exitFullscreen?.();
+    });
+
+    // Initialize favorites UI from storage
+    (function init(){
+      // mark any favorited items
+      const favs = readFavs(); favs.forEach(f=>{ const idx = items.findIndex(x=>x.dataset.title===f.title); if(idx>-1) items[idx].querySelector('.fav').setAttribute('aria-pressed','true'); });
+      renderFavs(); applyFilters();
+    })();
+
+    // Accessibility: trap focus in lightbox when open
+    lb.addEventListener('keydown', (e)=>{
+      if(e.key!=='Tab') return; const focusable = lb.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if(!focusable.length) return; const first = focusable[0], last = focusable[focusable.length-1];
+      if(e.shiftKey && document.activeElement===first){ last.focus(); e.preventDefault(); }
+      else if(!e.shiftKey && document.activeElement===last){ first.focus(); e.preventDefault(); }
+    });
+
+    // Initial counts
+    updateCounts(items);
+
+    // Small enhancement: allow clicking Enter on a card to open
+    items.forEach((c,i)=> c.addEventListener('keydown', (ev)=>{ if(ev.key==='Enter') openLightbox(i); }));
+
+  })();
+  </script>
+</body>
+</html>
