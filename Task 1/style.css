@@ -1,60 +1,121 @@
 body {
 font-family: Arial, sans-serif;
-background-color: #f2f2f2;
+background-color: lightcyan;
 margin: 0;
 }
 
-#Heading
-{
+#Heading {
     text-align: center;
-    text-shadow: #555;
-    font-size: 50px;
-    color:brown
+    font-size: 45px;
+    color: ghostwhite;
+    background-color: darkcyan;
+    padding: 15px;
+    margin: 40px 20px 20px 20px;
+    border-bottom: 4px solid lightskyblue;
+    border-left: 4px solid lightskyblue;
+    border-right: 4px solid lightskyblue;
 }
 
 header {
-background-color: #333;
-color: white;
-padding: 15px;
-text-align: center;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    position:fixed
+    top -50px
+    transition top 0.3s;
 }
-
-
-nav a {
-color: white;
-margin: 10px;
-text-decoration: none;
-}
-
-
-nav a:hover {
-background-color: #555;
-padding: 5px;
-}
-
 
 section {
-padding: 20px;
+    padding: 30px 60px;
+    line-height: 1.7;
+    font-size: 18px;
+    color: #222;
 }
 
+section p {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+form {
+    max-width: 500px;
+    margin: auto;
+    background-color: #e8ffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.gallery {
+    text-align: center;
+}
 
 .gallery img {
-width: 350px;
-height: 300px;
-margin: 50px;
-border: #f2f2f2;
-align-items: center;
+    width: 350px;
+    height: 280px;
+    margin: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
-
 
 input, textarea {
-padding: 5px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    font-size: 16px;
 }
 
+textarea {
+    resize: none;
+}
+
+input[type="submit"] {
+    background-color: darkcyan;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 17px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: teal;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.auth-box {
+    background-color: lightgrey;
+    padding: 25px;
+    width: 40%;
+    border-radius: 5px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.auth-box h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: brown;
+}
 
 @media screen and (max-width: 600px) {
-.gallery img {
-width: 100%;
-height: auto;
-}
+    .auth-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .auth-box {
+        width: 90%;
+        margin-bottom: 20px;
+    }
 }
