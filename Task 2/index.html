@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Moving Div</title>
+
+<style>
+    .outerdiv 
+    {
+        width: 400px;
+        height: 200px;
+        border: 2px solid black;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .innerdiv 
+    {
+        width: 40px;
+        height: 40px;
+        background-color: dodgerblue;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="outerdiv">
+    <div class="innerdiv" id="box"></div>
+</div>
+
+<button onclick="startMoving()">Start Moving</button>
+
+<script>
+    let x = 0;
+    let y = 0;
+    let interval = null;
+    let flag = true;
+    function startMoving() 
+    {
+        const box = document.getElementById("box");
+
+        interval = setInterval(() => {
+            if(!flag) 
+            {
+                x-=360/160;
+                y-=1;
+            }
+            else 
+            {
+                x += 360/160;
+                y += 1; 
+            }
+            if(x >= 360 || y >= 160) 
+            {
+                flag = false;
+            }
+            else if(x <= 0 || y <= 0) 
+            {
+                flag = true;
+            }
+
+            box.style.left = x + "px";
+            box.style.top = y + "px";
+        }, 10);
+    }
+</script>
+
+</body>
+</html>
