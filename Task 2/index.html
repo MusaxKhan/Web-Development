@@ -2,72 +2,266 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Moving Div</title>
+<title>Div Archery Game</title>
 
 <style>
-    .outerdiv 
-    {
-        width: 400px;
-        height: 200px;
-        border: 2px solid black;
-        position: relative;
-        overflow: hidden;
-        margin-bottom: 20px;
-    }
+  body {
+    margin: 0;
+    background: skyblue;
+    font-family: Arial;
+    text-align: center;
+  }
 
-    .innerdiv 
-    {
-        width: 40px;
-        height: 40px;
-        background-color: dodgerblue;
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
+  #score, #timer, #difficulty {
+    position: absolute;
+    top: 10px;
+    font-size: 20px;
+    background: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+  }
+
+  #score {
+    left: 20%;
+  }
+
+  #timer {
+    left: 45%;
+  }
+
+  #difficulty {
+    left: 70%;
+  }
+
+  #gameArea {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
+  }
+
+  /* Bow */
+  #bow {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    font-size: 50px;
+    transform: translateY(-50%);
+  }
+
+  /* Arrow */
+  #arrow {
+    position: absolute;
+    left: 80px;
+    top: 50%;
+    width: 60px;
+    height: 4px;
+    background: brown;
+    display: none;
+  }
+
+  /* Target */
+  #target {
+    position: absolute;
+    right: 50px;
+    top: 100px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: red;
+  }
+
+  button {
+    padding: 8px 15px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
 </style>
 </head>
 
 <body>
 
-<div class="outerdiv">
-    <div class="innerdiv" id="box"></div>
+<div id="score">Score: 0</div>
+<div id="timer">Time: 01:30</div>
+<div id="difficulty">Level: Easy</div>
+
+<div id="gameArea">
+  <div id="bow">🏹</div>
+  <div id="arrow"></div>
+  <div id="target"></div>
 </div>
 
-<button onclick="startMoving()">Start Moving</button>
+<button id="restartBtn">Restart</button>
 
 <script>
-    let x = 0;
-    let y = 0;
-    let interval = null;
-    let flag = true;
-    function startMoving() 
-    {
-        const box = document.getElementById("box");
 
-        interval = setInterval(() => {
-            if(!flag) 
-            {
-                x-=360/160;
-                y-=1;
-            }
-            else 
-            {
-                x += 360/160;
-                y += 1; 
-            }
-            if(x >= 360 || y >= 160) 
-            {
-                flag = false;
-            }
-            else if(x <= 0 || y <= 0) 
-            {
-                flag = true;
-            }
+  const arrow = document.getElementById("arrow");
+  const target = document.getElementById("target");
+  const scoreDisplay = document.getElementById("score");
+  const gameArea = document.getElementById("gameArea");
+  const timerDisplay = document.getElementById("timer");
+  const restartBtn = document.getElementById("restartBtn");
+  const difficultyDisplay = document.getElementById("difficulty");
 
-            box.style.left = x + "px";
-            box.style.top = y + "px";
-        }, 10);
+  let score = 0;
+  let arrowMoving = false;
+  let targetDirection = 1;
+  let gameOver = false;
+  let targetSpeed = 5;
+  let timerInterval;
+
+  /* Move Target */
+  function moveTarget() {
+    if (gameOver) return;
+
+    let top = target.offsetTop;
+
+    if (top <= 0 || top >= gameArea.clientHeight - 120) {
+      targetDirection *= -1;
     }
+
+    target.style.top = top + (targetSpeed * targetDirection) + "px";
+  }
+
+  /* Update Score */
+  function updateScore() {
+    score++;
+    scoreDisplay.textContent = "Score: " + score;
+    increaseDifficulty();
+  }
+
+  /* Timer */
+  function startTimer(duration, display) {
+
+    let timer = duration;
+
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+
+      let minutes = parseInt(timer / 60, 10);
+      let seconds = parseInt(timer % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = "Time: " + minutes + ":" + seconds;
+
+      if (--timer < 0) {
+        clearInterval(timerInterval);
+        alert("Time's up! Your final score is: " + score);
+        gameOver = true;
+      }
+
+    }, 1000);
+  }
+
+  /* Difficulty System */
+  function increaseDifficulty() {
+
+    if (targetSpeed < 15) {
+      targetSpeed += 2;
+    }
+
+    updateDifficultyText();
+  }
+
+  function updateDifficultyText() {
+
+    if (targetSpeed <= 6) {
+      difficultyDisplay.textContent = "Level: Easy";
+    }
+    else if (targetSpeed <= 10) {
+      difficultyDisplay.textContent = "Level: Medium";
+    }
+    else {
+      difficultyDisplay.textContent = "Level: Hard";
+    }
+  }
+
+  /* Shoot Arrow */
+  function shootArrow() {
+
+    if (gameOver) return;
+    if (arrowMoving) return;
+
+    arrowMoving = true;
+
+    arrow.style.display = "block";
+    arrow.style.left = "80px";
+    arrow.style.top = target.offsetTop + 30 + "px";
+
+    let arrowInterval = setInterval(() => {
+
+      if (gameOver) {
+        resetArrow();
+        clearInterval(arrowInterval);
+        return;
+      }
+
+      let arrowLeft = arrow.offsetLeft;
+
+      arrow.style.left = arrowLeft + 15 + "px";
+
+      /* Collision Detection */
+      if (
+        arrow.offsetLeft + arrow.offsetWidth >= target.offsetLeft &&
+        arrow.offsetTop >= target.offsetTop &&
+        arrow.offsetTop <= target.offsetTop + target.offsetHeight
+      ) {
+        updateScore();
+        resetArrow();
+        clearInterval(arrowInterval);
+      }
+
+      /* Out of Screen */
+      if (arrowLeft > gameArea.clientWidth) {
+        resetArrow();
+        clearInterval(arrowInterval);
+      }
+
+    }, 20);
+  }
+
+  /* Click Handler */
+  document.addEventListener("click", (event) => {
+
+    event.stopPropagation();
+
+    if (gameOver) return;
+
+    if (!gameArea.contains(event.target)) return;
+
+    shootArrow();
+  });
+
+  /* Reset Arrow */
+  function resetArrow() {
+    arrowMoving = false;
+    arrow.style.display = "none";
+  }
+
+  /* Restart Game */
+  function resetGame() {
+
+    score = 0;
+    gameOver = false;
+    targetSpeed = 5;
+
+    scoreDisplay.textContent = "Score: 0";
+    target.style.top = "100px";
+
+    updateDifficultyText();
+
+    startTimer(90, timerDisplay);
+  }
+
+  /* Start Game */
+  startTimer(90, timerDisplay);
+  setInterval(moveTarget, 50);
+  restartBtn.addEventListener("click", resetGame);
+
 </script>
 
 </body>
