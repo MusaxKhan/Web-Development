@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App - Fetch API</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            padding: 30px;
+        }
+
+        .box {
+            width: 450px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 70%;
+            padding: 7px;
+        }
+
+        button {
+            padding: 7px 10px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .delete {
+            color: red;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Todo List (GET, POST, DELETE - Fetch)</h2>
+
+    <input type="text" id="taskInput" placeholder="Write task">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+
+</div>
+
+
+<script>
+
+const API = "https://jsonplaceholder.typicode.com/todos";
+// ===================
+// GET → Load Todos
+// ===================
+function loadTodos() {
+
+    fetch(API + "?_limit=5")
+        .then(response => response.json())
+        .then(data => {
+
+            let list = document.getElementById("taskList");
+            list.innerHTML = "";
+
+            data.forEach(todo => {
+
+                list.innerHTML += `
+                    <li data-id="${todo.id}">
+                        ${todo.title}
+                        <span class="delete" onclick="deleteTask(${todo.id}, this)">Delete</span>
+                    </li>
+                `;
+
+            });
+
+        });
+
+}
+
+
+// ===================
+// POST → Add Todo
+// ===================
+function addTask() {
+
+    let input = document.getElementById("taskInput");
+    let text = input.value.trim();
+
+    if (text === "") {
+        alert("Write something!");
+        return;
+    }
+
+    fetch(API, {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            title: text,
+            completed: false
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("taskList").innerHTML += `
+            <li data-id="${data.id}">
+                ${data.title}
+                <span class="delete" onclick="deleteTask(${data.id}, this)">Delete</span>
+            </li>
+        `;
+
+        input.value = "";
+
+    });
+
+}
+
+
+// ===================
+// DELETE → Remove Todo
+// ===================
+function deleteTask(id, element) {
+
+    fetch(API + "/" + id, {
+        method: "DELETE"
+    })
+    .then(() => {
+
+        element.parentElement.remove();
+
+    });
+
+}
+
+
+// ===================
+// Start App
+// ===================
+loadTodos();
+
+</script>
+
+</body>
+</html>
