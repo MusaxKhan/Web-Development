@@ -1,0 +1,428 @@
+/* ===========================
+   GLOBAL RESET & BASE STYLES
+   =========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 20px;
+}
+
+/* ===========================
+   PAGE TITLE
+   =========================== */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* ===========================
+   MAIN LAYOUT
+   =========================== */
+.main-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   LEFT PANEL (Filter Controls)
+   =========================== */
+.left-panel {
+  width: 260px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Filter Box card */
+.filter-box {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+/* Section label */
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+/* 2x2 filter button grid */
+.filter-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+/* Filter buttons (Brightness, Saturation, etc.) */
+.filter-btn {
+  padding: 7px 6px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.filter-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Active / selected filter button */
+.filter-btn.active {
+  background: #3d5af1;
+  color: #fff;
+  border-color: #3d5af1;
+}
+
+/* ===========================
+   SLIDER AREA (main filter)
+   =========================== */
+.slider-area {
+  margin-bottom: 14px;
+}
+
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+  color: #444;
+}
+
+/* Main slider styling */
+#main-slider {
+  width: 100%;
+  accent-color: #3d5af1;
+  cursor: pointer;
+}
+
+/* ===========================
+   ROTATE & FLIP BUTTONS
+   =========================== */
+.rotate-flip-buttons {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+/* Icon buttons for rotate/flip */
+.icon-btn {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: #e0e0e0;
+}
+
+/* ===========================
+   EXTRA FILTERS (Sepia, Blur, Rotate slider)
+   =========================== */
+.extra-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.extra-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.extra-row label {
+  width: 48px;
+  font-size: 0.8rem;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.extra-row input[type="range"] {
+  flex: 1;
+  accent-color: #3d5af1;
+  cursor: pointer;
+}
+
+.extra-row span {
+  width: 42px;
+  text-align: right;
+  font-size: 0.78rem;
+  color: #444;
+  flex-shrink: 0;
+}
+
+/* ===========================
+   RESET BUTTON
+   =========================== */
+.reset-btn {
+  padding: 8px 14px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.reset-btn:hover {
+  background: #e8e8e8;
+}
+
+/* ===========================
+   RIGHT PANEL (Canvas Area)
+   =========================== */
+.right-panel {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Undo / Redo row */
+.undo-redo-row {
+  display: flex;
+  gap: 10px;
+}
+
+.undo-redo-btn {
+  padding: 7px 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.undo-redo-btn:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.undo-redo-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Canvas wrapper */
+.canvas-wrapper {
+  width: 100%;
+  min-height: 340px;
+  background: #e8e8e8;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* The canvas itself */
+#main-canvas {
+  max-width: 100%;
+  max-height: 480px;
+  display: none; /* hidden until image loads */
+}
+
+/* Placeholder text when no image */
+.no-image-msg {
+  color: #999;
+  font-size: 1rem;
+  position: absolute;
+}
+
+/* Bottom choose/save buttons */
+.bottom-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.choose-btn {
+  padding: 9px 20px;
+  border: 1px solid #777;
+  border-radius: 4px;
+  background: #555;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+
+.choose-btn:hover {
+  background: #444;
+}
+
+.save-btn {
+  padding: 9px 20px;
+  border: 1px solid #3d5af1;
+  border-radius: 4px;
+  background: #3d5af1;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+
+.save-btn:hover {
+  background: #2a42d4;
+}
+
+/* ===========================
+   HISTORY PANEL
+   =========================== */
+.history-panel {
+  max-width: 1100px;
+  margin: 20px auto 0 auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.clear-history-btn {
+  padding: 3px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: background 0.2s;
+}
+
+.clear-history-btn:hover {
+  background: #e0e0e0;
+}
+
+/* History list */
+#history-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+}
+
+.history-empty {
+  color: #aaa;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Each history entry item */
+.history-item {
+  padding: 5px 12px;
+  border: 1px solid #bbb;
+  border-radius: 20px;
+  background: #f0f4ff;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #333;
+  transition: background 0.2s, border-color 0.2s;
+  user-select: none;
+}
+
+.history-item:hover {
+  background: #dde5ff;
+  border-color: #3d5af1;
+}
+
+/* Active / current history item */
+.history-item.current {
+  background: #3d5af1;
+  color: #fff;
+  border-color: #3d5af1;
+}
+
+/* ===========================
+   RESPONSIVE - MOBILE
+   =========================== */
+@media (max-width: 680px) {
+  body {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 14px;
+  }
+
+  .main-wrapper {
+    flex-direction: column;
+  }
+
+  .left-panel {
+    width: 100%;
+  }
+
+  .right-panel {
+    width: 100%;
+  }
+
+  .bottom-buttons {
+    justify-content: center;
+  }
+
+  .canvas-wrapper {
+    min-height: 220px;
+  }
+
+  #main-canvas {
+    max-height: 320px;
+  }
+
+  .undo-redo-row {
+    justify-content: center;
+  }
+
+  #history-list {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Editor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1><u><i>Photo Editor</i></u></h1>
+
+  <div class="main-wrapper">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+      <!-- FILTER BUTTONS -->
+      <div class="filter-box">
+        <p class="section-label">Filters</p>
+        <div class="filter-buttons">
+          <button class="filter-btn active" id="btn-brightness" onclick="selectFilter('brightness')">Brightness</button>
+          <button class="filter-btn" id="btn-saturation" onclick="selectFilter('saturation')">Saturation</button>
+          <button class="filter-btn" id="btn-inversion" onclick="selectFilter('inversion')">Inversion</button>
+          <button class="filter-btn" id="btn-grayscale" onclick="selectFilter('grayscale')">Grayscale</button>
+        </div>
+
+        <!-- SLIDER AREA -->
+        <div class="slider-area">
+          <div class="slider-label-row">
+            <span id="slider-name">Brightness</span>
+            <span id="slider-value">100%</span>
+          </div>
+          <input type="range" id="main-slider" min="0" max="200" value="100" oninput="onSliderChange()" />
+        </div>
+
+        <!-- ROTATE & FLIP -->
+        <p class="section-label">Rotate &amp; Flip</p>
+        <div class="rotate-flip-buttons">
+          <button class="icon-btn" title="Rotate Left" onclick="rotateLeft()">&#8634;</button>
+          <button class="icon-btn" title="Rotate Right" onclick="rotateRight()">&#8635;</button>
+          <button class="icon-btn" title="Flip Horizontal" onclick="flipHorizontal()">&#8614;</button>
+          <button class="icon-btn" title="Flip Vertical" onclick="flipVertical()">&#8615;</button>
+        </div>
+
+        <div class="extra-filters">
+          <div class="extra-row">
+            <label>Sepia</label>
+            <input type="range" id="sepia-slider" min="0" max="100" value="0" oninput="onExtraSliderChange('sepia')" />
+            <span id="sepia-val">0%</span>
+          </div>
+          <div class="extra-row">
+            <label>Blur</label>
+            <input type="range" id="blur-slider" min="0" max="20" value="0" oninput="onExtraSliderChange('blur')" />
+            <span id="blur-val">0px</span>
+          </div>
+          <div class="extra-row">
+            <label>Rotate</label>
+            <input type="range" id="rotate-slider" min="-180" max="180" value="0" oninput="onExtraSliderChange('rotate')" />
+            <span id="rotate-val">0deg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESET BUTTON -->
+      <button class="reset-btn" onclick="resetFilters()">RESET FILTERS</button>
+    </div>
+
+    <!-- RIGHT PANEL: Canvas + Buttons -->
+    <div class="right-panel">
+      <!-- UNDO / REDO -->
+      <div class="undo-redo-row">
+        <button id="undo-btn" class="undo-redo-btn" onclick="undo()" disabled>&#8592; Undo</button>
+        <button id="redo-btn" class="undo-redo-btn" onclick="redo()" disabled>Redo &#8594;</button>
+      </div>
+
+      <!-- CANVAS -->
+      <div class="canvas-wrapper">
+        <canvas id="main-canvas"></canvas>
+        <div class="no-image-msg" id="no-image-msg">No Image Selected</div>
+      </div>
+
+      <!-- BOTTOM BUTTONS -->
+      <div class="bottom-buttons">
+        <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="loadImage(event)" />
+        <button class="choose-btn" onclick="document.getElementById('file-input').click()">CHOOSE IMAGE</button>
+        <button class="save-btn" onclick="saveImage()">SAVE IMAGE</button>
+      </div>
+    </div>
+
+  </div><!-- end main-wrapper -->
+
+  <!-- HISTORY PANEL -->
+  <div class="history-panel">
+    <div class="history-header">
+      <span>History</span>
+      <button class="clear-history-btn" onclick="clearHistory()">Clear</button>
+    </div>
+    <ul id="history-list">
+      <li class="history-empty">No changes yet</li>
+    </ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
