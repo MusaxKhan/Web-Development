@@ -1,6 +1,3 @@
-/* ===========================
-   GLOBAL RESET & BASE STYLES
-   =========================== */
 * {
   margin: 0;
   padding: 0;
@@ -14,9 +11,6 @@ body {
   padding: 20px;
 }
 
-/* ===========================
-   PAGE TITLE
-   =========================== */
 h1 {
   text-align: center;
   font-size: 2rem;
@@ -24,9 +18,6 @@ h1 {
   color: #222;
 }
 
-/* ===========================
-   MAIN LAYOUT
-   =========================== */
 .main-wrapper {
   display: flex;
   gap: 20px;
@@ -36,9 +27,6 @@ h1 {
   margin: 0 auto;
 }
 
-/* ===========================
-   LEFT PANEL (Filter Controls)
-   =========================== */
 .left-panel {
   width: 260px;
   min-width: 220px;
@@ -48,7 +36,6 @@ h1 {
   flex-shrink: 0;
 }
 
-/* Filter Box card */
 .filter-box {
   background: #fff;
   border: 1px solid #ddd;
@@ -56,7 +43,6 @@ h1 {
   padding: 14px;
 }
 
-/* Section label */
 .section-label {
   font-size: 0.85rem;
   font-weight: 600;
@@ -64,7 +50,6 @@ h1 {
   color: #555;
 }
 
-/* 2x2 filter button grid */
 .filter-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -72,7 +57,6 @@ h1 {
   margin-bottom: 14px;
 }
 
-/* Filter buttons (Brightness, Saturation, etc.) */
 .filter-btn {
   padding: 7px 6px;
   border: 1px solid #bbb;
@@ -87,16 +71,12 @@ h1 {
   background: #e0e0e0;
 }
 
-/* Active / selected filter button */
 .filter-btn.active {
   background: #3d5af1;
   color: #fff;
   border-color: #3d5af1;
 }
 
-/* ===========================
-   SLIDER AREA (main filter)
-   =========================== */
 .slider-area {
   margin-bottom: 14px;
 }
@@ -109,16 +89,12 @@ h1 {
   color: #444;
 }
 
-/* Main slider styling */
 #main-slider {
   width: 100%;
   accent-color: #3d5af1;
   cursor: pointer;
 }
 
-/* ===========================
-   ROTATE & FLIP BUTTONS
-   =========================== */
 .rotate-flip-buttons {
   display: flex;
   gap: 6px;
@@ -126,7 +102,6 @@ h1 {
   flex-wrap: wrap;
 }
 
-/* Icon buttons for rotate/flip */
 .icon-btn {
   width: 40px;
   height: 36px;
@@ -145,9 +120,6 @@ h1 {
   background: #e0e0e0;
 }
 
-/* ===========================
-   EXTRA FILTERS (Sepia, Blur, Rotate slider)
-   =========================== */
 .extra-filters {
   display: flex;
   flex-direction: column;
@@ -183,9 +155,6 @@ h1 {
   flex-shrink: 0;
 }
 
-/* ===========================
-   RESET BUTTON
-   =========================== */
 .reset-btn {
   padding: 8px 14px;
   border: 1px solid #aaa;
@@ -202,9 +171,6 @@ h1 {
   background: #e8e8e8;
 }
 
-/* ===========================
-   RIGHT PANEL (Canvas Area)
-   =========================== */
 .right-panel {
   flex: 1;
   min-width: 280px;
@@ -213,7 +179,6 @@ h1 {
   gap: 12px;
 }
 
-/* Undo / Redo row */
 .undo-redo-row {
   display: flex;
   gap: 10px;
@@ -238,7 +203,6 @@ h1 {
   cursor: not-allowed;
 }
 
-/* Canvas wrapper */
 .canvas-wrapper {
   width: 100%;
   min-height: 340px;
@@ -252,21 +216,18 @@ h1 {
   position: relative;
 }
 
-/* The canvas itself */
 #main-canvas {
   max-width: 100%;
   max-height: 480px;
-  display: none; /* hidden until image loads */
+  display: none;
 }
 
-/* Placeholder text when no image */
 .no-image-msg {
   color: #999;
   font-size: 1rem;
   position: absolute;
 }
 
-/* Bottom choose/save buttons */
 .bottom-buttons {
   display: flex;
   gap: 12px;
@@ -305,9 +266,6 @@ h1 {
   background: #2a42d4;
 }
 
-/* ===========================
-   HISTORY PANEL
-   =========================== */
 .history-panel {
   max-width: 1100px;
   margin: 20px auto 0 auto;
@@ -341,7 +299,6 @@ h1 {
   background: #e0e0e0;
 }
 
-/* History list */
 #history-list {
   list-style: none;
   display: flex;
@@ -356,7 +313,6 @@ h1 {
   font-style: italic;
 }
 
-/* Each history entry item */
 .history-item {
   padding: 5px 12px;
   border: 1px solid #bbb;
@@ -374,16 +330,12 @@ h1 {
   border-color: #3d5af1;
 }
 
-/* Active / current history item */
 .history-item.current {
   background: #3d5af1;
   color: #fff;
   border-color: #3d5af1;
 }
 
-/* ===========================
-   RESPONSIVE - MOBILE
-   =========================== */
 @media (max-width: 680px) {
   body {
     padding: 12px;
